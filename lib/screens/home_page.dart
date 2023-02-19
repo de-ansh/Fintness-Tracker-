@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:worky/data/workout_data.dart';
+import 'package:worky/screens/workout_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,12 +11,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final newWorkoutNameController = TextEditingController();
+
   void createNewWorkOut() {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
               title: Text("Create New WorkOut"),
-              content: TextField(),
+              content: TextField(
+                controller: newWorkoutNameController,
+              ),
               actions: [
                 //Save
                 MaterialButton(
@@ -32,8 +37,32 @@ class _HomePageState extends State<HomePage> {
             ));
   }
 
-  void save() {}
-  void cancel() {}
+  void save() {
+    String newWorkoutName = newWorkoutNameController.text;
+    Provider.of<WorkoutData>(context, listen: false).addWorkout(newWorkoutName);
+    Navigator.pop(context);
+    clear();
+  }
+
+  void cancel() {
+    Navigator.pop(context);
+    clear();
+  }
+
+  void clear() {
+    newWorkoutNameController.clear();
+  }
+
+  void goToWorkoutPage(String workoutName) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WorkoutPage(
+          workoutName: workoutName,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +79,11 @@ class _HomePageState extends State<HomePage> {
             itemCount: value.getWorkoutList().length,
             itemBuilder: (context, index) => ListTile(
                   title: Text(value.getWorkoutList()[index].name),
+                  trailing: IconButton(
+                    icon: Icon(Icons.arrow_forward_ios),
+                    onPressed: () =>
+                        goToWorkoutPage(value.getWorkoutList()[index].name),
+                  ),
                 )),
       ),
     );

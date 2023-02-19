@@ -5,11 +5,18 @@ import 'package:worky/models/workout.dart';
 class WorkoutData extends ChangeNotifier {
   List<WorkOut> workoutList = [
     WorkOut(name: 'Upper Body', excercises: [
-      Exercise(name: "Bicep Curls", weight: "10", reps: "10", sets: "3"),
+      Exercise(
+          name: "Bicep Curls",
+          weight: "10 KGs",
+          reps: "10 reps",
+          sets: "3 sets"),
     ]),
     WorkOut(name: 'Legs', excercises: [
       Exercise(
-          name: "Free Squats", weight: "Body Weight", reps: "50", sets: "3"),
+          name: "Free Squats",
+          weight: "Body Weight",
+          reps: "50 resps ",
+          sets: "3 sets "),
     ])
   ];
   //get the list of Workout
